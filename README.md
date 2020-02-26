@@ -34,7 +34,7 @@ The two examples below are SWOT simulated passes from the NAtl60 model, generate
 - Create and activate the swotmod conda environment :
 
 ```
-conda env create -f env_swotmod.ym
+conda env create -f env_swotmod.yml
 conda activate swotmod
 ```
    
