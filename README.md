@@ -14,9 +14,9 @@ This module is a collection of tools used to read data from the SWOT simulator, 
 
 The two examples below are SWOT simulated passes from the NAtl60 model, generated for the fast-sampling phase in the western Mediterranean Sea.
   
-   * MED_fastPhase_1km_swotFAST_c01_p009.nc: example SWOT dataset directly out of SWOT simulator (version 2.21)
+    * MED_fastPhase_1km_swotFAST_c01_p009.nc: example SWOT dataset directly out of SWOT simulator (version 2.21)
    
-   * MED_1km_nogap_JAS12_swotFastPhase_BOX_c01_p009_v2.nc: example SWOT dataset subregion (box_dataset) used in paper Gomez-Navarro et al. (in review).
+    * MED_1km_nogap_JAS12_swotFastPhase_BOX_c01_p009_v2.nc: example SWOT dataset subregion (box_dataset) used in paper Gomez-Navarro et al. (in review).
 
 * Example notebooks:
 
