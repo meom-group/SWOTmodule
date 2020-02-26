@@ -25,10 +25,6 @@ The two examples below are SWOT simulated passes from the NAtl60 model, generate
   * discover-SWOTmodule_box_dataset.ipynb : Example of using SWOTdenoise module with modified SWOT simulator output netcdfs.  In this case the dataset used in the study Gomez-Navarro et al. (in review). 
 
 
-## Credits
-
-When using SWOT module, please mention : 
-
 ## How to install the module :
 
 - Clone this repository :
@@ -55,6 +51,8 @@ python -m ipykernel install --user --name swotmod --display swotmod
 ## Bibliography
 
 ## Contact
+
+## Credits
 
 
 
