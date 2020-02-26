@@ -1,0 +1,14 @@
+name: swotmod
+dependencies:
+        - python
+        - numpy
+        - matplotlib
+        - xarray
+        - netcdf4
+        - scipy
+        - configparser
+        - ipython
+        - jupyterlab
+        - ipykernel
+        - pip:
+                - version_information
