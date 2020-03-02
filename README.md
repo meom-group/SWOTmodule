@@ -1,4 +1,5 @@
 [![Documentation Status](https://readthedocs.org/projects/swot-module/badge/?version=latest)](https://swot-module.readthedocs.io/en/latest/?badge=latest)
+[!Build status](https://travis-ci.org/meom-group/SWOTmodule.svg?branch=master)
 
 # SWOTmodule
 
