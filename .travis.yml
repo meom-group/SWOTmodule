@@ -1,0 +1,5 @@
+language: python
+install:
+        - conda env create --file env_swotmod.yml
+        - source activate swotmod
+
