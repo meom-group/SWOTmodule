@@ -14,21 +14,19 @@
 #
 import os
 import sys
-sys.path.append('/home/alberta/Work/git/SWOTmodule_meom/')
-sys.path.append('/home/alberta/Work/git')
-sys.path.append('..')
+sys.path.insert(0, os.path.abspath('..'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = u'SWOTmodule'
-copyright = u'2020, Laura Gomez Navarro, Emmanuel Cosme, Nicolas Papadakis, Julien Le Sommer, Ananda Pascual, Nora Poel and Audrey Monsimer'
-author = u'Laura Gomez Navarro, Emmanuel Cosme, Nicolas Papadakis, Julien Le Sommer, Ananda Pascual, Nora Poel and Audrey Monsimer'
+project = 'SWOT module'
+copyright = '2020, Laura Gomez Navarro, Emmanuel Cosme'
+author = 'Laura Gomez Navarro, Emmanuel Cosme'
 
 # The short X.Y version
-version = u''
+version = ''
 # The full version, including alpha/beta/rc tags
-release = u'1.3'
+release = '1.3'
 
 
 # -- General configuration ---------------------------------------------------
@@ -42,8 +40,6 @@ release = u'1.3'
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.githubpages',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -68,9 +64,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
-
-autodoc_mock_imports = ['netCDF4','scipy']
+exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
@@ -135,8 +129,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'SWOTmodule.tex', u'SWOTmodule Documentation',
-     u'Laura Gomez Navarro, Emmanuel Cosme, Nicolas Papadakis, Julien Le Sommer, Ananda Pascual, Nora Poel and Audrey Monsimer', 'manual'),
+    (master_doc, 'SWOTmodule.tex', 'SWOT module Documentation',
+     'Laura Gomez Navarro, Emmanuel Cosme', 'manual'),
 ]
 
 
@@ -145,7 +139,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'swotmodule', u'SWOTmodule Documentation',
+    (master_doc, 'swotmodule', 'SWOT module Documentation',
      [author], 1)
 ]
 
@@ -156,7 +150,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'SWOTmodule', u'SWOTmodule Documentation',
+    (master_doc, 'SWOTmodule', 'SWOT module Documentation',
      author, 'SWOTmodule', 'One line description of project.',
      'Miscellaneous'),
 ]

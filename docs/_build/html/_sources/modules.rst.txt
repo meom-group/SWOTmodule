@@ -1,5 +1,5 @@
-SWOTmodule_meom
-===============
+SWOTmodule
+==========
 
 .. toctree::
    :maxdepth: 4
