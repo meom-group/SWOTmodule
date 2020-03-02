@@ -12,4 +12,7 @@ before_install:
 install:
         - conda env create --file env_swotmod.yml
         - source activate swotmod
+        - pip install pytest 
 
+script:
+        - pytest
