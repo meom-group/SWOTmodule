@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/swot-module/badge/?version=latest)](https://swot-module.readthedocs.io/en/latest/?badge=latest)
+
 # SWOTmodule
 
 ## Documentation
