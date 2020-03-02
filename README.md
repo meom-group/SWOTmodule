@@ -2,7 +2,7 @@
 
 ## Documentation
 
-The complete documentation of this module can be found : (here)[https://swot-module.readthedocs.io]
+The complete documentation of this module can be found : [https://swot-module.readthedocs.io](here)
 
 ## Description
 
