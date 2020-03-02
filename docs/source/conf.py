@@ -16,6 +16,7 @@ import os
 import sys
 sys.path.append('/home/alberta/Work/git/SWOTmodule_meom/')
 sys.path.append('/home/alberta/Work/git')
+sys.path.append('..')
 
 
 # -- Project information -----------------------------------------------------
