@@ -16,7 +16,7 @@ This module is a collection of tools used to read data from the SWOT simulator, 
 
    * SWOTdenoise.py: Module to read SWOT data, filter it and save it in a new output file or obtain the SSH de-noised variable.
 
-* Example data: The two examples below are SWOT simulated passes from the NAtl60 model, generated for the fast-sampling phase in the western Mediterranean Sea.
+* Example data: The two examples below are SWOT simulated passes from the NATL60 model, generated for the fast-sampling phase in the western Mediterranean Sea.
   
    * MED_fastPhase_1km_swotFAST_c01_p009.nc: example SWOT dataset directly out of SWOT simulator (version 2.21)
    
