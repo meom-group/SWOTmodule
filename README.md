@@ -12,9 +12,9 @@ This module is a collection of tools used to read data from the SWOT simulator, 
 
 * Codes:
 
-  * SWOTdenoise.cfg: Configuration file called by SWOTdenoise.py.  Used to specify the name of the variables of the input file to be filtered.
+   * SWOTdenoise.cfg: Configuration file called by SWOTdenoise.py.  Used to specify the name of the variables of the input file to be filtered.
 
-  * SWOTdenoise.py: Module to read SWOT data, filter it and save it in a new output file or obtain the SSH de-noised variable.
+   * SWOTdenoise.py: Module to read SWOT data, filter it and save it in a new output file or obtain the SSH de-noised variable.
 
 * Example data:
 
@@ -26,9 +26,9 @@ The two examples below are SWOT simulated passes from the NAtl60 model, generate
 
 * Example notebooks:
 
-  * discover-SWOTmodule.ipynb : Example of using SWOTdenoise module with the SWOT simulator output netcdfs
+   * discover-SWOTmodule.ipynb : Example of using SWOTdenoise module with the SWOT simulator output netcdfs
 
-  * discover-SWOTmodule_box_dataset.ipynb : Example of using SWOTdenoise module with modified SWOT simulator output netcdfs.  In this case the dataset used in the study Gomez-Navarro et al. (in review). 
+   * discover-SWOTmodule_box_dataset.ipynb : Example of using SWOTdenoise module with modified SWOT simulator output netcdfs.  In this case the dataset used in the study Gomez-Navarro et al. (in review). 
 
 
 ## How to install the module :
