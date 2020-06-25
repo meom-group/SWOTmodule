@@ -53,10 +53,9 @@ python -m ipykernel install --user --name swotmod --display swotmod
 - Modify the SWOTdenoise.cfg for your own use
 
 ## Bibliography
-
-## Contact
-
-## Credits
+[Gómez-Navarro, L., Cosme, E., Le Sommer, J., Papadakis, N., and Pascual, A. (2020). Development of
+an image de-noising method in preparation for the surface water and ocean topography satellite mission.
+Remote Sensing , 12(4).](https://www.researchgate.net/publication/339456605_Development_of_an_Image_De-Noising_Method_in_Preparation_for_the_Surface_Water_and_Ocean_Topography_Satellite_Mission)
 
 
 
