@@ -14,6 +14,7 @@ Laura Gomez Navarro (1,2), Emmanuel Cosme (1), Nicolas Papadakis (3), Le Sommer,
 - May 2018: version 2
 - Update: 14/06/2018
 - Last update: 19/12/2019
+- Last update: 18/04/2022
 """ 
 
 import numpy as np
