@@ -70,7 +70,7 @@ def read_data(filename, *args):
     
     return tuple(output)
 
-def write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time_d, norm_d, method, param, iter_max, epsilon, iters_d):
+def write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time_d, method, param, norm_d = None, iter_max = None, epsilon = None, iters_d = None, cost_d = None):
     """
     Write SSH in output file.
     
@@ -106,7 +106,8 @@ def write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time_d, n
     # Dimensions
     time = fid.createDimension('time', len(time_d))
     x_ac = fid.createDimension('x_ac', len(x_ac_d))
-    iters = fid.createDimension('iters', iters_d) #%
+    if iters_d != None:
+        iters = fid.createDimension('iters', iters_d) #%
 
     # Create variables
     lat = fid.createVariable('lat', 'f8', ('time','x_ac'))
@@ -141,17 +142,23 @@ def write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time_d, n
 
     ssh.method   = method
     ssh.param    = str(param)
-    ssh.iter_max = str(iter_max)
-    ssh.epsilon  = str(epsilon)
+    if iter_max != None:
+        ssh.iter_max = str(iter_max)
+    if epsilon != None:
+        ssh.epsilon  = str(epsilon)
 
-    viters = fid.createVariable('iters', 'f8', ('iters'))
-    viters.long_name = "Number of iterations done in filtering"
-    viters[:] = np.arange(1, iters_d+1)
-
-    norm = fid.createVariable('norm', 'f8', ('iters'))
-    norm.long_name = "norm xxx"  
-    norm.units = "m" 
-    norm[:] = norm_d 
+    if iters_d != None:
+        viters = fid.createVariable('iters', 'f8', ('iters'))
+        viters.long_name = "Number of iterations done in filtering"
+        viters[:] = np.arange(1, iters_d+1)
+        norm = fid.createVariable('norm', 'f8', ('iters'))
+        norm.long_name = "norm xxx"  
+        norm.units = "m" 
+        norm[:] = norm_d 
+        cost = fid.createVariable('cost', 'f8', ('iters'))
+        cost.long_name = "Cost function"  
+        cost.units = "m^2" 
+        cost[:] = cost_d 
 
     fid.close()  # close the new file
     
@@ -308,6 +315,53 @@ def convolution_filter(ssh, param, method):
     return v/w
 
 
+def bilateral_filter(ssh, param):
+    """
+    Apply a bilateral filter, i.e., a convolution with a point-varying kernel. The kernel is computed with 2 Gaussian functions.
+    The first one is related to the spatial distance (similar to standard Gaussian filtering).
+    The second one is related to the photometric distance.
+    When only the second function is used, it is the Non-Local Means filter.
+    The input image can contain gaps (masked values).
+        
+    Parameters:
+    ----------
+    ssh: 2D masked array to filter
+    param: parameter for the method:
+        - standard deviation of Gaussian kernel in space (spatial distance in pixels).
+        - standard deviation of Gaussian kernel in field (photometric distance in SSH unit).
+            
+    Returns:
+    -------
+    2D ndarray (not a masked array).
+    """
+    Nx, Ny = ssh.shape
+    arNx, arNy = np.arange(Nx), np.arange(Ny)
+    my, mx = np.meshgrid(arNy, arNx)
+    kspace, kphoto = np.ones_like(ssh), np.ones_like(ssh)
+    std_space, std_photo = param[0], param[1]
+    try:
+        a = 1/std_space
+        b = 1/std_photo
+    except:
+        write_error_and_exit(7)
+    ssh_tmp = ssh.data.copy()       # Non-masked array
+    ssh_d = np.copy(ssh_tmp)
+    for j in range(Ny):
+        if (j+1)%(int(Ny/5)) == 0:
+            print(100*j/Ny,'%',sep='')
+        for i in range(Nx):
+            xg, yg = a*(mx-i), a*(my-j)
+            kspace = np.exp(-(xg*xg+yg*yg)*0.5)
+            kspace /= np.sum(kspace)
+            xp = b*(ssh_tmp-ssh_tmp[i,j])
+            kphoto = np.exp(-(xp*xp)*0.5)
+            kphoto /= np.sum(kphoto)
+            kernel = kspace*kphoto
+            kernel /= np.sum(kernel)
+            ssh_d[i,j] = np.sum(ssh_tmp*kernel)
+    return ssh_d
+
+
 def gradx(I): 
     """
     Calculates the gradient in the x-direction of an image I and gives as output M.
@@ -435,6 +489,7 @@ def iterations_var_reg_fista(ssh, ssh_d, param, epsilon=1.e-6, itermax=2000):
     print('norm/epsilon = ' + str(np.round(norm/epsilon,2)))
 
     norm_array = np.array(norm_array) #%
+    cost = cost[0:iteration]
     
     return ssh_d, norm_array, iteration, cost
 # iteration -1, as the iteration at which it stops it does not filter
@@ -458,7 +513,7 @@ def variational_regularization_filter_fista(ssh, param, itermax, epsilon, pc_met
         """
     
     # Apply the Gaussian filter for preconditioning
-    if any(param) is not 0.:
+    if any(param) != 0.:
         ssh_d = convolution_filter(ssh, pc_param, method = pc_method)  # output here is a simple ndarray
 
 
@@ -480,7 +535,11 @@ def write_error_and_exit(nb):
     if nb == 4:
         print("For convolutional filters, lambd must be a number.")
     if nb == 5:
-        print("For the fista variational regularization filter, lambd must be a 2-entry tuple.")
+        print("For the bilateral filter, lambd must be a 2-entry tuple.")
+    if nb == 6:
+        print("For the bilateral filter, inpainting is not possible. Run again without inpainting.")
+    if nb == 7:
+        print("For the bilateral filter, both parameters must be strictly positive.")
     sys.exit()
 
 def cost_function(mask,hobs, h, param):
@@ -551,7 +610,7 @@ def SWOTdenoise(*args, **kwargs):
     Other keywords arguments are:
     - config: name of the config file (default: SWOTdenoise.cfg)
     - method: gaussian, boxcar, or var_reg_fista (default);
-    - param: number for gaussian and boxcar; 3-entry tuple for var_reg_fista (default: (1.5, 0, 0); under investigation) ;
+    - param: number for gaussian and boxcar; 2-entry tuple for bilateral filter; 3-entry tuple for var_reg_fista;
     - inpainting: if True, the nadir gap is inpainted. If False, it is not and the returned SSH array is of the same shape as the original one. If the SWOTdenoise function is called using arrays (see above description) with inpainting=True, then it returns SSH, lon, and lat arrays. If it is called using arrays with inpainting=False, it returns only SSH, since lon and lat arrays are the same as for the input field. Default is False.
     - itermax: only for var_reg_fista: maximum number of iterations in the gradient descent algortihm (default: 2000);
     - epsilon: only for var_reg_fista: convergence criterion for the gradient descent algortihm (default: 1e-6);
@@ -613,7 +672,7 @@ def SWOTdenoise(*args, **kwargs):
     ## Check if SSH is masked:
     if np.ma.isMaskedArray(ssh) == False:
         ssh = np.ma.asarray(ssh)
-        print('ssh had to be masked2')
+        print('ssh had to be masked')
         
     ssh_f, lon_f, lat_f, x_ac_f = fill_nadir_gap(ssh, lon, lat, x_ac, time)  # fill the nadir gap with masked fill values
         
@@ -651,13 +710,20 @@ def SWOTdenoise(*args, **kwargs):
             ssh_d, norm, iters, cost = variational_regularization_filter_fista(ssh_f, param, \
                                                                itermax=itermax, epsilon=epsilon, pc_method=pc_method, \
                                                                pc_param=pc_param)
-                                                               
         else:
             write_error_and_exit(3)
+            
+    if method == 'bilateral_filter':
+        if isinstance(param, tuple) and len(param) == 2:
+            ssh_d = bilateral_filter(ssh_f, param)                                               
+        else:
+            write_error_and_exit(5)
         
     # 2.3. Handle inpainting option, and recover masked array
 
     if inpainting is True:
+        if method == 'bilateral_filter':
+            write_error_and_exit(6)
         ssh_tmp, _, _, _ = fill_nadir_gap(ssh, lon, lat, x_ac, time, method='interp')     # to get appropriate mask
         ssh_d = np.ma.array(ssh_d, mask = ssh_tmp.mask, fill_value = ssh.fill_value )     # generate masked array
         lon_d, lat_d, x_ac_d = copy_arrays(lon_f, lat_f, x_ac_f)
@@ -674,14 +740,16 @@ def SWOTdenoise(*args, **kwargs):
         ssh_d.data[mask] = ssh_d.fill_value
         
     # 3. Manage results
-    cost = cost[1:iters] # first value?
-    
+        
     if file_input:
-        fileout = write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time, norm, method, param, itermax, epsilon, iters) ## , cost
+        if method == 'var_reg_fista':
+            fileout = write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time, method, param, norm, itermax, epsilon, iters, cost)
+        else:
+            fileout = write_data(filename, output_filename, ssh_d, lon_d, lat_d, x_ac_d, time, method, param)
         print('Filtered field in ', fileout )
     else:
         if inpainting is True:
-            return ssh_d, lon_d, lat_d, cost
+            return ssh_d, lon_d, lat_d
         else:
-            return ssh_d, cost
+            return ssh_d
    
