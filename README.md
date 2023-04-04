@@ -4,7 +4,7 @@
 
 ## Documentation
 
-The complete documentation of this module can be found : [here](https://swot-module.readthedocs.io)
+The complete documentation of this module can be found : [here](https://swot-module.readthedocs.io) _[April 2023: not updated]_
 
 ## Description
 
@@ -26,8 +26,13 @@ This module is a collection of tools used to read data from the SWOT simulator, 
 
    * discover-SWOTmodule.ipynb : Example of using SWOTdenoise module with the SWOT simulator output netcdfs
 
-   * discover-SWOTmodule_box_dataset.ipynb : Example of using SWOTdenoise module with modified SWOT simulator output netcdfs.  In this case the dataset used in the study Gomez-Navarro et al. (in review). 
+   * discover-SWOTmodule_box_dataset.ipynb : Example of using SWOTdenoise module with modified SWOT simulator output netcdfs.  In this case the dataset used in the study Gomez-Navarro et al. (2020). _[April 2023: this notebook has not been updated, contrary to the first one.]_
 
+## Denoising methods
+
+* Convolution filters: boxcar and Gaussian kernels
+* Bilateral filter ([Milanfar, 2013](https://users.soe.ucsc.edu/~milanfar/publications/journal/ModernTour.pdf))
+* Variational regularization filter ([Gomez Navarro et al, 2020](http://dx.doi.org/10.3390/rs12040734))
 
 ## How to install the module :
 
@@ -49,14 +54,8 @@ python -m ipykernel install --user --name swotmod --display swotmod
 ```
 ## How to use the module :
 
-- Launch one the demonstration notebook
+- Launch the demonstration notebook
 - Modify the SWOTdenoise.cfg for your own use
-
-## Bibliography
-[Gómez-Navarro, L., Cosme, E., Le Sommer, J., Papadakis, N., and Pascual, A. (2020). Development of
-an image de-noising method in preparation for the surface water and ocean topography satellite mission.
-Remote Sensing , 12(4).](https://www.researchgate.net/publication/339456605_Development_of_an_Image_De-Noising_Method_in_Preparation_for_the_Surface_Water_and_Ocean_Topography_Satellite_Mission)
-
 
 
 

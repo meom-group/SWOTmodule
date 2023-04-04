@@ -3,7 +3,7 @@
 The SWOTdenoise module is a toolbox developed specifically in preparation of the SWOT mission. It provides a toolbox to remove small-scale noise from SWOT data. The main function is SWOTdenoise (same name as the module itself), and for standard applications, the user should not need to call other module functions. Optionally, other functions that can be directly useful are read_data (to read data from a netcdf file) and fill_nadir_gap: this function fills the lon and lat arrays in the SWOT nadir gap, and introduces fill values in the SSH array. For more details look at the dedicated helps.
 
 # AUTHORS:
-Laura Gomez Navarro (1,2), Emmanuel Cosme (1), Nicolas Papadakis (3), Le Sommer, J. (1), Pascual, A. (2), Poel, N. (1), Monsimer, A. (1)
+Laura Gomez Navarro (1,2), Emmanuel Cosme (1), Nicolas Papadakis (3), Le Sommer, J. (1), Pascual, A. (2), Poel, N. (1), Monsimer, A. (1), Abdulfatai, M. A.
 
 (1) CNRS/UGA/IRD/G-INP, IGE, Grenoble, France
 (2) IMEDEA (CSIC-UIB), Esporles, Spain
@@ -11,9 +11,7 @@ Laura Gomez Navarro (1,2), Emmanuel Cosme (1), Nicolas Papadakis (3), Le Sommer,
 
 # HISTORY:
 - April 2018: version 1 (_orig)
-- May 2018: version 2
-- Update: 14/06/2018
-- Last update: 19/12/2019
+- April 2023: add bilateral filter
 """ 
 
 import numpy as np
